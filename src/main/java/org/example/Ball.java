@@ -12,6 +12,7 @@ class Ball {
     private int y= 0;
     private int dx = 2;
     private int dy = 2;
+    private boolean inHole = false;
 
     public Ball(Component c){
         this.canvas = c;
@@ -36,23 +37,26 @@ class Ball {
     public void move(){
         x+=dx;
         y+=dy;
-        if(x<0){
-            x = 0;
-            dx = -dx;
-        }
-        if(x+XSIZE>=this.canvas.getWidth()){
-            x = this.canvas.getWidth()-XSIZE;
 
-            dx = -dx;
+        int width = canvas.getWidth();
+        int height = canvas.getHeight();
+
+        if ((x <= 0 && y <= 0) ||
+                (x + XSIZE >= width && y <= 0) ||
+                (x <= 0 && y + YSIZE >= height) ||
+                (x + XSIZE >= width && y + YSIZE >= height)) {
+
+            this.inHole = true;
+            return;
         }
-        if(y<0){
-            y=0;
-            dy = -dy;
-        }
-        if(y+YSIZE>=this.canvas.getHeight()){
-            y = this.canvas.getHeight()-YSIZE;
-            dy = -dy;
-        }
+
+        if (x < 0 || x + XSIZE >= width) dx = -dx;
+        if (y < 0 || y + YSIZE >= height) dy = -dy;
+
         this.canvas.repaint();
+    }
+
+    public boolean isInHole() {
+        return inHole;
     }
 }

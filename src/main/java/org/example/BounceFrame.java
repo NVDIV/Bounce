@@ -9,6 +9,8 @@ public class BounceFrame extends JFrame {
     private BallCanvas canvas;
     public static final int WIDTH = 450;
     public static final int HEIGHT = 350;
+    private int counter = 0;
+    private JTextField textField;
     public BounceFrame() {
         this.setSize(WIDTH, HEIGHT);
         this.setTitle("Bounce programm");
@@ -26,7 +28,7 @@ public class BounceFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Ball b = new Ball(canvas);
                 canvas.add(b);
-                BallThread thread = new BallThread(b);
+                BallThread thread = new BallThread(b, canvas, BounceFrame.this);
                 thread.start();
                 System.out.println("Thread name = " +
                         thread.getName());
@@ -43,5 +45,16 @@ public class BounceFrame extends JFrame {
         buttonPanel.add(buttonStart);
         buttonPanel.add(buttonStop);
         content.add(buttonPanel, BorderLayout.SOUTH);
+        textField = new JTextField("0", 5);
+        buttonPanel.add(new JLabel("In hole: "));
+        buttonPanel.add(textField);
+    }
+
+    public void incrementCounter(){
+        counter++;
+
+        SwingUtilities.invokeLater(() -> {
+            textField.setText(String.valueOf(counter));
+        });
     }
 }

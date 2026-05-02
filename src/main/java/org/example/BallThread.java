@@ -2,8 +2,13 @@ package org.example;
 
 public class BallThread extends Thread {
     private Ball b;
-    public BallThread(Ball ball){
-        b = ball;
+    private BallCanvas canvas;
+    private BounceFrame frame;
+
+    public BallThread(Ball ball, BallCanvas canvas, BounceFrame frame){
+        this.b = ball;
+        this.canvas = canvas;
+        this.frame = frame;
     }
     @Override
     public void run(){
@@ -13,6 +18,12 @@ public class BallThread extends Thread {
                 System.out.println("Thread name = "
 
                 + Thread.currentThread().getName());
+
+                if (b.isInHole() == true) {
+                    canvas.remove(b);
+                    frame.incrementCounter();
+                    break;
+                }
 
                 Thread.sleep(5);
 

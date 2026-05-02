@@ -9,6 +9,9 @@ public class BallCanvas extends JPanel {
     public void add(Ball b){
         this.balls.add(b);
     }
+    public void remove(Ball b){
+        this.balls.remove(b);
+    }
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
