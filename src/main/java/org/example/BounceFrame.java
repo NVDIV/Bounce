@@ -21,17 +21,34 @@ public class BounceFrame extends JFrame {
         content.add(this.canvas, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.lightGray);
-        JButton buttonStart = new JButton("Start");
+        JButton buttonRed = new JButton("Add RED ball");
+        JButton buttonBlue = new JButton("Add BLUE balls");
         JButton buttonStop = new JButton("Stop");
-        buttonStart.addActionListener(new ActionListener() {
+        buttonRed.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Ball b = new Ball(canvas);
+
+                Ball b = new Ball(canvas, BallType.RED);
                 canvas.add(b);
-                BallThread thread = new BallThread(b, canvas, BounceFrame.this);
+
+                BallThread thread = new BallThread(b, canvas, BounceFrame.this, BallType.RED);
+                thread.setPriority(Thread.MAX_PRIORITY);
                 thread.start();
-                System.out.println("Thread name = " +
-                        thread.getName());
+            }
+        });
+        buttonBlue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                for(int i = 0; i < 10; i++) {
+
+                    Ball b = new Ball(canvas, BallType.BLUE);
+                    canvas.add(b);
+
+                    BallThread thread = new BallThread(b, canvas, BounceFrame.this, BallType.BLUE);
+                    thread.setPriority(Thread.MIN_PRIORITY);
+                    thread.start();
+                }
             }
         });
         buttonStop.addActionListener(new ActionListener() {
@@ -42,7 +59,9 @@ public class BounceFrame extends JFrame {
             }
         });
 
-        buttonPanel.add(buttonStart);
+        buttonPanel.add(buttonRed);
+        buttonPanel.add(buttonBlue);
+        buttonPanel.add(buttonStop);
         buttonPanel.add(buttonStop);
         content.add(buttonPanel, BorderLayout.SOUTH);
         textField = new JTextField("0", 5);

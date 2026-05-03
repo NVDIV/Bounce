@@ -13,9 +13,19 @@ class Ball {
     private int dx = 2;
     private int dy = 2;
     private boolean inHole = false;
+    private Color color;
+    private BallType type;
 
-    public Ball(Component c){
+    public Ball(Component c, BallType type){
         this.canvas = c;
+        this.type = type;
+
+        if(type == BallType.RED){
+            color = Color.RED;
+        } else {
+            color = Color.BLUE;
+        }
+
 
         if (Math.random()<0.5){
             x = new
@@ -31,7 +41,7 @@ class Ball {
         int a = 0;
     }
     public void draw (Graphics2D g2){
-        g2.setColor(Color.darkGray);
+        g2.setColor(color);
         g2.fill(new Ellipse2D.Double(x,y,XSIZE,YSIZE));
     }
     public void move(){

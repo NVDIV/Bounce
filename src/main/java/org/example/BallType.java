@@ -1,2 +1,5 @@
-package org.example;public enum BallType {
+package org.example;
+
+public enum BallType {
+    RED, BLUE
 }

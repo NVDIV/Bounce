@@ -2,8 +2,6 @@ package org.example;
 
 import javax.swing.*;
 
-// Bounce class
-
 public class Bounce {
     public static void main(String[] args) {
         BounceFrame frame = new BounceFrame();
