@@ -7,8 +7,10 @@ public class Bounce {
 
         for (int i = 0; i < 100; i++) {
 
-            Thread t1 = new DashThread();
-            Thread t2 = new PipeThread();
+            PrintController controller = new PrintController();
+
+            Thread t1 = new DashThread(controller);
+            Thread t2 = new PipeThread(controller);
 
             t1.start();
             t2.start();
