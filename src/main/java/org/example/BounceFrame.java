@@ -23,6 +23,7 @@ public class BounceFrame extends JFrame {
         buttonPanel.setBackground(Color.lightGray);
         JButton buttonRed = new JButton("Add RED ball");
         JButton buttonBlue = new JButton("Add BLUE balls");
+        JButton buttonJoin = new JButton("Join demo");
         JButton buttonStop = new JButton("Stop");
         buttonRed.addActionListener(new ActionListener() {
             @Override
@@ -51,6 +52,34 @@ public class BounceFrame extends JFrame {
                 }
             }
         });
+        buttonJoin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                new Thread(() -> {
+
+                    Ball b = new Ball(canvas, BallType.RED);
+
+                    SwingUtilities.invokeLater(() -> {
+                        canvas.add(b);
+                        canvas.repaint();
+                    });
+
+                    BallThread thread = new BallThread(b, canvas, BounceFrame.this, BallType.RED);
+                    thread.setPriority(Thread.MAX_PRIORITY);
+                    thread.start();
+
+                    try {
+                        thread.join();
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    System.out.println("Red ball finished, continue main thread");
+
+                }).start();
+            }
+        });
         buttonStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,7 +90,7 @@ public class BounceFrame extends JFrame {
 
         buttonPanel.add(buttonRed);
         buttonPanel.add(buttonBlue);
-        buttonPanel.add(buttonStop);
+        buttonPanel.add(buttonJoin);
         buttonPanel.add(buttonStop);
         content.add(buttonPanel, BorderLayout.SOUTH);
         textField = new JTextField("0", 5);
